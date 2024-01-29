@@ -2,19 +2,22 @@ package com.acme.games
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.acme.games.databinding.ActivityMainBinding
 import com.acme.games.other.FragListener
+import com.acme.games.space.HeliFrag
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), FragListener {
 
     private lateinit var binding: ActivityMainBinding
 
+    private var myFrag: Fragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,5 +48,31 @@ class MainActivity : AppCompatActivity(), FragListener {
     }
     fun log(msg: String){
         Log.d("ArMem: BlankFrag ",  msg)
+    }
+    private fun startGame() {
+        log("Starting Game, adding helifragment")
+        try {
+            myFrag = HeliFrag()
+            supportFragmentManager.beginTransaction()
+                .add(R.id.homeFrame, myFrag!!).commit()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun endGame() {
+        log("Ending game!, removing helifragment")
+        try {
+            supportFragmentManager.beginTransaction()
+                .remove(myFrag!!).commit()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    fun gameOver(score: Int) {
+        log("GameOVer! $score")
+        endGame()
+        log("Restarting!")
+        startGame()
     }
 }

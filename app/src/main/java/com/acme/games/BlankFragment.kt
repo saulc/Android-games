@@ -132,8 +132,11 @@ class BlankFragment : Fragment() {
             }
         })
 
-        val w = view?.width ?: 700
-        val h = view?.height ?: 800 //1000
+//        val x = img?.width ?: 1080
+        val x =   1080
+        val w = view?.width ?: x
+        val h = view?.height ?: x //1000
+        log("Window size: " + w + " x " + h)
         control = GameControl(this, img, btext, w, h)
         restart()
     }
