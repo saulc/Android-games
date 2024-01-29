@@ -294,7 +294,8 @@ class GameControl{
                     p.color = Color.BLACK
                     var singlespace : Float = space*.1f
                     if( pos[k] > 9 ) singlespace = 0f
-                    cc.drawText(msg, space * x + space / 3 + singlespace, space * y + space / 2, p)
+                    p.textSize = 130f
+                    cc.drawText(msg, space * x + space / 3 + singlespace, space * y + space *.7f, p)
                 } //(x+y*4)
 
             }
