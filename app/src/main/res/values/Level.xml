@@ -13,12 +13,12 @@
     	 -->
     <integer-array
         name="coin_locations">
-        <item>400</item>
+        <item>100</item>
         <item>100</item>
         <item>77</item>
         <item>200</item>
         <item>100</item>
-        <item>900</item>
+        <item>500</item>
       
     </integer-array>
 </resources>

@@ -73,7 +73,7 @@ public class MyThread extends Thread {
 		try {
 
 			heli[0] = BitmapFactory.decodeStream(res.getAssets().open("user.png"));
-			coin = BitmapFactory.decodeStream(res.getAssets().open("pink.png"));
+			coin = BitmapFactory.decodeStream(res.getAssets().open("supra.png"));
 
 
 		bomb = new Bitmap[2];

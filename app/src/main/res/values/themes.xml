@@ -13,4 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+    <!-- Set the splash screen background to black -->
+    <item name="windowSplashScreenBackground">@color/teal_700</item>
+    <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
+         drawable. -->
+    <item name="windowSplashScreenAnimatedIcon">@drawable/user</item>
+    <!-- Set the theme of the Activity that follows your splash screen. -->
+    <item name="postSplashScreenTheme">@style/Theme.Games</item>
+</style>
 </resources>
