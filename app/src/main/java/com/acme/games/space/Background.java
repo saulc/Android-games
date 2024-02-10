@@ -51,7 +51,7 @@ public class Background implements OnTouchListener, SensorEventListener {
 			width = res.getWidth();
 			height = res.getHeight();
 			x = 0;
-			y = -1000;
+			y = -height;
 			speedX = 0;
 			speedY = 0;
 			ti = 0;
@@ -196,7 +196,7 @@ public class Background implements OnTouchListener, SensorEventListener {
 			log("Canvas is null, nothing to draw on...");
 			return;
 		}
-		int yy =  -height-y+dy;
+		int yy =  height+y+dy;
 		Log.d(TAG, "Drawing bg " + y + " h: " + yy);
 
 

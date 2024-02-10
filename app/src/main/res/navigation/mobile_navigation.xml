@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.acme.games.ui.dashboard.DashboardFragment"
+        android:name="com.acme.games.math.MathFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_math" />
 
     <fragment
         android:id="@+id/navigation_notifications"
