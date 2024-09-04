@@ -21,6 +21,8 @@ class GameStats {
         if(r == GameResult.HIT) gamesWon++
         else if(r == GameResult.MISS) gamesLost++
 
+
+        
 //        games = g
         time = t.toString()
 
