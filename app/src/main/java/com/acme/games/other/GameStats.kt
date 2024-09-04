@@ -1,24 +1,27 @@
 package com.acme.games.other
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 class GameStats {
 
 
-    var games: List<Gtype> = mutableListOf()
+    var games: ArrayList<Gtype> = ArrayList()
     //not need, can/will sort by type. GameResult.
     var gamesLost : Int = 0
     var gamesWon : Int = 0
     var time : String = ""
 
     fun logGame(r : GameResult, l: Int, t: GameTime){
-        val g = mutableListOf<Gtype>()
-        val gg = Gtype(r, l, t)
-        g.add(gg)
+//        val g = mutableListOf<Gtype>()
+        var gg = Gtype(r, l, t)
+//        for( a in games)
+//            g.add(a)
+        games.add(gg)
         if(r == GameResult.HIT) gamesWon++
         else if(r == GameResult.MISS) gamesLost++
 
-        games = g
+//        games = g
         time = t.toString()
 
     }
@@ -45,6 +48,13 @@ class Gtype {
 
     }
 
+    override fun toString() : String{
+        var w = "Level:" + level
+        if(result == GameResult.HIT) w += "won"
+        else if(result == GameResult.MISS) w += "lost"
+        else if(result == GameResult.SKIP) w += "skip"
+        return w + gameTime.toString()
+    }
 }
 
 class GameTime{

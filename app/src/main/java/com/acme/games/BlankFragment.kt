@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.acme.games.other.BlankViewModel
 import com.acme.games.other.FragListener
 import com.acme.games.other.GameControl
+import com.acme.games.other.Gtype
 
 
 class BlankFragment : Fragment() {
@@ -39,6 +40,7 @@ class BlankFragment : Fragment() {
     private var bar : SeekBar? = null
     private var bar2 : SeekBar? = null
     private var btext : TextView? = null
+    private var text : TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +51,7 @@ class BlankFragment : Fragment() {
         bar = v.findViewById(R.id.bBar)
         bar2 = v.findViewById(R.id.bBar2)
         btext = v.findViewById(R.id.btext)
+        text = v.findViewById(R.id.text)
         mListener?.gameConnected(this)
         return v
     }
@@ -97,6 +100,7 @@ class BlankFragment : Fragment() {
 
         }
 
+            bar2?.max = 2
         bar2?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
@@ -144,10 +148,11 @@ class BlankFragment : Fragment() {
     fun restart(){
         log("game Restarting.")
         val m : Int = bar?.progress ?: 0
-        var g : Int = bar2?.progress ?: 5
-        if(g > 7 ) g = 5
-        else if(g < 3) g = 3
-        else g = 4
+        var g : Int = bar2?.progress ?: 0
+        g += 3
+//        if(g > 7 ) g = 5
+//        else if(g < 3) g = 3
+//        else g = 4
         control?.startGame(m, g)
         loop  = Runnable {
             mhandler.postDelayed(loop, 100)
@@ -174,6 +179,13 @@ class BlankFragment : Fragment() {
 
     }
 
+    fun updateboard(games: ArrayList<Gtype>){
+        var t = ""
+        for(g in games)
+            t += g.toString() + "\n"
+        text?.text = t
+        log( t)
+    }
     fun gsignIn(){
 //        val signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
         //send score to play service leaderboard

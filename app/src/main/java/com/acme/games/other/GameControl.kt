@@ -65,19 +65,21 @@ class GameControl{
         2   4 x 4 = 16
         3   4 x 5 = 20
 
+
         4   5 x 7 = 35?
          */
         fun setmode(m: Int, g: Int){
             mode = m
             count = m+1
+            if(mode > 8 && g == 3) mode = 8;
 
                 gridrows = g
             when(g){
                 3 -> grid = 9-1
-                4 -> grid = 20-1
+                4 -> grid = 16-1
                 5 -> grid = maxgrid
             }
-            if( (mode > 7) and (g == 3)) grid = 11
+//            if( (mode > 7) and (g == 3)) grid = 11
             space = (width / gridrows ).toFloat()
 
         }
@@ -146,13 +148,15 @@ class GameControl{
         dat.show()
         mstat?.logGame(GameResult.HIT, dat.mode, dat.timer)
         listener.win(mstat.toString())
+        listener.updateboard(mstat!!.games)
     }
 
     fun gameOver(){
 
-        mstat?.logGame(GameResult.HIT, dat.mode, dat.timer)
+        mstat?.logGame(GameResult.MISS, dat.mode, dat.timer)
         listener.gameOver(mstat.toString())
 
+        listener.updateboard(mstat!!.games)
 
     }
 
