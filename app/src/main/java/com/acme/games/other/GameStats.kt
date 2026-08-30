@@ -14,7 +14,7 @@ class GameStats {
 
     fun logGame(r : GameResult, l: Int, t: GameTime){
 //        val g = mutableListOf<Gtype>()
-        var gg = Gtype(r, l, t)
+        var gg = Gtype(r, l, t.toString())
 //        for( a in games)
 //            g.add(a)
         games.add(gg)
@@ -40,9 +40,9 @@ class Gtype {
 
     var result : GameResult = GameResult.SKIP
     var level: Int = 0
-    var gameTime : GameTime
+    var gameTime : String
 
-    constructor(R: GameResult, L:Int, T: GameTime){
+    constructor(R: GameResult, L:Int, T: String){
         result = R
         level = L
         gameTime = T
