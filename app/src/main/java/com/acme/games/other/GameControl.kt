@@ -51,6 +51,7 @@ class GameControl{
             current = 0
             firstClick = false
 
+
             if(vis.size == 0) for(i in 0.. maxgrid ) vis.add(true)
             else show()
 
