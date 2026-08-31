@@ -37,14 +37,14 @@ class memFragment : Fragment() {
 
         dat.timer.etime = dat.getTime()
         dat.show()
-        mstat?.logGame(GameResult.HIT, dat.mode, dat.timer)
+        mstat?.logGame(GameResult.HIT, dat.mode, dat.timer, dat.current)
         listener?.win(mstat.toString())
         listener?.updateboard(mstat!!.games)
     }
 
     fun gameOver(){
 
-        mstat?.logGame(GameResult.MISS, dat.mode, dat.timer)
+        mstat?.logGame(GameResult.MISS, dat.mode, dat.timer, dat.current)
         listener?.gameOver(mstat.toString())
 
         listener?.updateboard(mstat!!.games)
@@ -146,7 +146,7 @@ class memFragment : Fragment() {
         private var pause : Boolean = false
         private var started : Boolean = false
         var firstClick: Boolean = false
-        private var current : Int = 0
+        var current : Int = 0
         var count = 3
         var mode : Int = 2
         var grid : Int = 8
