@@ -12,6 +12,7 @@ import com.acme.games.BlankFragment
 import com.acme.games.R
 import com.acme.games.databinding.FragmentHomeBinding
 import com.acme.games.other.FragListener
+import com.acme.games.other.memFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeFragment : Fragment() {
@@ -42,15 +43,20 @@ class HomeFragment : Fragment() {
         fab.setOnClickListener {
             fabClicked()
         }
-
-        game = BlankFragment.newInstance()
+        game = memFragment.newInstance(3)
         childFragmentManager.beginTransaction()
             .add(R.id.homeFrame, game!!)
             .commit()
 
+//        game = BlankFragment.newInstance()
+//        childFragmentManager.beginTransaction()
+//            .add(R.id.homeFrame, game!!)
+//            .commit()
+
         return root
     }
-    private var game : BlankFragment? = null
+    private var game : memFragment? = null
+//    private var game : BlankFragment? = null
     fun fabClicked(){
         log("Fab clicked: Restarting game.")
         game?.restart()
