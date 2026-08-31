@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.acme.games.BlankFragment
 import com.acme.games.R
 import com.acme.games.other.GameControl.gdata
+import com.acme.games.other.GameListener
 import com.acme.games.other.placeholder.PlaceholderContent
 import java.util.Date
 
@@ -23,26 +24,30 @@ class memFragment : Fragment() {
     private lateinit var dat : gdata
     private var mstat : GameStats? = null
     private var columnCount = 3
-    private lateinit var listener : BlankFragment
+    private var listener : GameListener? = null
+    private var memAdapter: MymemRecyclerViewAdapter? = null
 
     public fun restart(){
         Log.i("Mem frag","restart called")
+        val rn = getNumbers(dat.count)
+        dat.start(rn)
+        memAdapter?.updateValues(rn)
     }
     fun winner(){
 
         dat.timer.etime = dat.getTime()
         dat.show()
         mstat?.logGame(GameResult.HIT, dat.mode, dat.timer)
-        listener.win(mstat.toString())
-        listener.updateboard(mstat!!.games)
+        listener?.win(mstat.toString())
+        listener?.updateboard(mstat!!.games)
     }
 
     fun gameOver(){
 
         mstat?.logGame(GameResult.MISS, dat.mode, dat.timer)
-        listener.gameOver(mstat.toString())
+        listener?.gameOver(mstat.toString())
 
-        listener.updateboard(mstat!!.games)
+        listener?.updateboard(mstat!!.games)
 
     }
     //randomize start values
@@ -80,6 +85,20 @@ class memFragment : Fragment() {
 
     }
 
+    override fun onAttach(context: android.content.Context) {
+        super.onAttach(context)
+        if (context is GameListener) {
+            listener = context
+        } else if (parentFragment is GameListener) {
+            listener = parentFragment as GameListener
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -95,7 +114,11 @@ class memFragment : Fragment() {
                 }
                 val rn = getNumbers(dat.count)
                 dat.start(rn)
-                adapter = MymemRecyclerViewAdapter(rn)
+                memAdapter = MymemRecyclerViewAdapter(rn, dat.vis) { position ->
+                    dat.click(position)
+                    memAdapter?.notifyDataSetChanged()
+                }
+                adapter = memAdapter
             }
         }
         return view

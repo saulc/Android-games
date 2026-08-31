@@ -12,10 +12,12 @@ import com.acme.games.BlankFragment
 import com.acme.games.R
 import com.acme.games.databinding.FragmentHomeBinding
 import com.acme.games.other.FragListener
+import com.acme.games.other.GameListener
+import com.acme.games.other.Gtype
 import com.acme.games.other.memFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), GameListener {
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -68,6 +70,23 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun win(msg: String) {
+        log("Winner winner, chicken dinner.")
+        binding.textHome.text = "You got it! $msg"
+    }
+
+    override fun gameOver(msg: String) {
+        log("Game Over Caught.")
+        binding.textHome.text = "Try again? $msg"
+    }
+
+    override fun updateboard(games: ArrayList<Gtype>) {
+        var t = ""
+        for (g in games)
+            t += g.toString() + "\n"
+        log(t)
     }
 
 }

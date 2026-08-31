@@ -15,7 +15,9 @@ import com.acme.games.databinding.FragmentItemBinding
  * TODO: Replace the implementation with code for your data type.
  */
 class MymemRecyclerViewAdapter(
-    private var values: List<Int>
+    private var values: List<Int>,
+    private var vis: List<Boolean>,
+    private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<MymemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,9 +34,22 @@ class MymemRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-//        holder.idView.text = item.id
         holder.contentView.text = item.toString()
-        if(item == -1) holder.contentView.visibility = View.INVISIBLE
+
+        if (item == -1 || !vis[position]) {
+            holder.contentView.visibility = View.INVISIBLE
+        } else {
+            holder.contentView.visibility = View.VISIBLE
+        }
+
+        holder.itemView.setOnClickListener {
+            onItemClick(position)
+        }
+    }
+
+    fun updateValues(newValues: List<Int>) {
+        this.values = newValues
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = values.size

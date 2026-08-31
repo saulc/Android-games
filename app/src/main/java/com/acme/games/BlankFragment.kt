@@ -18,10 +18,11 @@ import androidx.fragment.app.Fragment
 import com.acme.games.other.BlankViewModel
 import com.acme.games.other.FragListener
 import com.acme.games.other.GameControl
+import com.acme.games.other.GameListener
 import com.acme.games.other.Gtype
 
 
-class BlankFragment : Fragment() {
+class BlankFragment : Fragment(), GameListener {
 
     companion object {
         fun newInstance() = BlankFragment()
@@ -165,21 +166,21 @@ class BlankFragment : Fragment() {
     }
 
     fun stopUpdate(){ mhandler.removeCallbacks(loop) }
-    fun gameOver(msg: String){
+    override fun gameOver(msg: String){
         mhandler.removeCallbacks(loop)
         log("Game OVer Caught.")
 
         btext?.text = "try again?" + msg
     }
 
-    fun win(msg : String) {
+    override fun win(msg : String) {
         log("Winner winner, chicken dinner.")
         gameOver("")
         btext?.text = "You got it!" + msg
 
     }
 
-    fun updateboard(games: ArrayList<Gtype>){
+    override fun updateboard(games: ArrayList<Gtype>){
         var t = ""
         for(g in games)
             t += g.toString() + "\n"
