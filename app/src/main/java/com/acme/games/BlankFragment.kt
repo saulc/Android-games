@@ -48,7 +48,7 @@ class BlankFragment : Fragment(), GameListener {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.blank_fragment, container, false)
-        img = v.findViewById(R.id.bimg)
+//        img = v.findViewById(R.id.bimg)
         bar = v.findViewById(R.id.bBar)
         bar2 = v.findViewById(R.id.bBar2)
         btext = v.findViewById(R.id.btext)
@@ -151,9 +151,11 @@ class BlankFragment : Fragment(), GameListener {
         val m : Int = bar?.progress ?: 0
         var g : Int = bar2?.progress ?: 0
         g += 3
-//        if(g > 7 ) g = 5
-//        else if(g < 3) g = 3
-//        else g = 4
+
+        val memFrag = childFragmentManager.fragments.filterIsInstance<com.acme.games.other.memFragment>().firstOrNull()
+        memFrag?.startGame(m, g)
+        memFrag?.restart()
+
         control?.startGame(m, g)
         loop  = Runnable {
             mhandler.postDelayed(loop, 100)

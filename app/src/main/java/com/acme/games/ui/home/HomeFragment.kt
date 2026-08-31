@@ -45,20 +45,19 @@ class HomeFragment : Fragment(), GameListener {
         fab.setOnClickListener {
             fabClicked()
         }
-        game = memFragment.newInstance(3)
-        childFragmentManager.beginTransaction()
-            .add(R.id.homeFrame, game!!)
-            .commit()
 
-//        game = BlankFragment.newInstance()
-//        childFragmentManager.beginTransaction()
-//            .add(R.id.homeFrame, game!!)
-//            .commit()
+        game = childFragmentManager.findFragmentById(R.id.homeFrame) as? BlankFragment
+        if (game == null) {
+            game = BlankFragment.newInstance()
+            childFragmentManager.beginTransaction()
+                .add(R.id.homeFrame, game!!)
+                .commit()
+        }
 
         return root
     }
-    private var game : memFragment? = null
-//    private var game : BlankFragment? = null
+//    private var game : memFragment? = null
+    private var game : BlankFragment? = null
     fun fabClicked(){
         log("Fab clicked: Restarting game.")
         game?.restart()

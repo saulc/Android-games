@@ -8,23 +8,20 @@
     android:paddingTop="@dimen/text_margin"
     tools:context=".BlankFragment">
 
-    <ImageView
-        android:id="@+id/bimg"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_launcher_round"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="80dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:name="com.acme.games.other.memFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="6" />
 
         <TextView
             android:id="@+id/btext"
@@ -37,16 +34,17 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"  >
+            android:layout_weight="2">
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hi "
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Hi "
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </ScrollView>
+
         <SeekBar
             android:id="@+id/bBar"
             android:layout_width="match_parent"

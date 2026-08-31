@@ -66,12 +66,10 @@ class memFragment : Fragment() {
     }
     //initialize a game in mode
     fun startGame(mode: Int, grid: Int){
-
+        columnCount = grid
         dat.setmode(mode, grid)
-
-
-
-
+        val recyclerView = view as? RecyclerView
+        (recyclerView?.layoutManager as? GridLayoutManager)?.spanCount = columnCount
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
