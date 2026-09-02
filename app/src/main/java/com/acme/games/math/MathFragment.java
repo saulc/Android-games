@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,15 @@ public class MathFragment extends Fragment {
 
         MathHelper mathHelp = new MathHelper(this,iv, tv, 500,500);
         mathHelp.drawGrid();
+
+        iv.setOnTouchListener((view, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                view.performClick();
+                mathHelp.zoom(event.getX() / view.getWidth(), event.getY() / view.getHeight());
+            }
+            return true;
+        });
+
         return v;
     }
 }

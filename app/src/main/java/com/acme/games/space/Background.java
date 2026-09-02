@@ -107,9 +107,17 @@ public class Background implements OnTouchListener, SensorEventListener {
 			gravity.updateGravity(t);
 		
 		  //Log.d(TAG, "Updateing bg t: " + t);
-		y += speedX * (t - ti);
-		y += speedY * (t - ti);
+		long dt = t - ti;
+		y += speedX * dt;
+		y += speedY * dt;
 
+		if (y >= 0) {
+			y -= height;
+			dx -= height;
+		} else if (y <= -height) {
+			y += height;
+			dx += height;
+		}
 
 		gItems.get(0).left();
 		gItems.get(0).right();
@@ -117,7 +125,7 @@ public class Background implements OnTouchListener, SensorEventListener {
 		for(int i=0; i<gItems.size(); i++)
 		if(gItems.get(i).getState() == GraphicsItem.state.FIXEDTOBACKGROUND){
 			//Log.d(TAG, "Shifting coin by: " + (speedX ));
-			gItems.get(i).setX(  (int) (gItems.get(i).getX() +( speedX * (t - ti))));
+			gItems.get(i).setX(  (int) (gItems.get(i).getX() +( speedX * dt)));
 		}
 		
 		ti = t;
@@ -196,23 +204,10 @@ public class Background implements OnTouchListener, SensorEventListener {
 			log("Canvas is null, nothing to draw on...");
 			return;
 		}
-		int yy =  height+y+dy;
-		Log.d(TAG, "Drawing bg " + y + " h: " + yy);
 
-
-		if(height >  y +1000)
-			canvas.drawBitmap(res, 0, yy, null);
-		else {
-			//the end of the bg image.. loop the image
-			// or end the level...!!!
-
-
-			//	  Log.d(TAG, "Drawing bg at:" + -x );
-			//if( height < y)
-				shiftY();
-			//canvas.drawBitmap(res, 0, -(2*height)-y, null);
-			//canvas.drawBitmap(res, 0, -height - y, null);
-		}
+		// Draw two bitmaps for a seamless loop
+		canvas.drawBitmap(res, 0, y, null);
+		canvas.drawBitmap(res, 0, y + height, null);
 
 		drawItems(canvas);
 

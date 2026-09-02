@@ -1,9 +1,7 @@
 package com.acme.games.math
 
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -17,6 +15,10 @@ class MathHelper {
 
     private var listener : MathFragment
 
+    private var centerX = 0.0
+    private var centerY = 0.0
+    private var zoom = 1.0
+
     constructor(Callback: MathFragment, iv: ImageView?, tv: TextView?, w: Int, h: Int){
         listener = Callback
         img = iv
@@ -26,74 +28,57 @@ class MathHelper {
 
     }
 
-    fun getPaint(): Paint {
-        var p = Paint()
-        //  p.setColor(Color.TRANSPARENT);
-        p.strokeWidth = 3.0f
-        p.color = Color.GREEN
-        p.textSize = 44f
-        return p
+    fun zoom(normX: Float, normY: Float) {
+        val scale = 4.0 / (width * zoom)
+        val bitmapX = normX * width
+        val bitmapY = normY * height
+        
+        centerX += (bitmapX - width / 2.0) * scale
+        centerY += (bitmapY - height / 2.0) * scale
+        zoom *= 2.0
+        drawGrid()
     }
 
     //scaling problems... switching to floating buttons.
-    fun drawGrid(): Bitmap {
-
+    fun drawGrid() {
         val rc = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val cc = Canvas(rc)
-        val p = getPaint()
-
-        //black background
-        cc.drawARGB(0, 0, 0, 0)
-
-
-        doMath(cc);
-                p.color = Color.CYAN
-        cc.drawPoint(width/2f, height/2f, p)
-
-
-        img?.setImageBitmap(rc)
-        return rc
+        
+        Thread {
+            doMath(rc)
+            img?.post {
+                img?.setImageBitmap(rc)
+            }
+        }.start()
     }
 
 
-    fun doMath(canvas : Canvas){
+    fun doMath(bitmap: Bitmap){
         val max = 100
-        val p = getPaint()
-
-        val black = 0
         val colors = IntArray(max)
         for (i in 0 until max) {
-//            colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f))
-
-            colors[i] = Color.rgb(i / 256f, 1f, i / (i + 8f))
+            colors[i] = Color.rgb((i * 5) % 255, (i * 10) % 255, (i * 15) % 255)
         }
 
-        for (row in 0 until height) {
-            for (col in 0 until width) {
-                val c_re = (col - width / 2) * 4.0 / width
-                val c_im = (row - height / 2) * 4.0 / width
-                var x = 0.0
-                var y = 0.0
-                var r2: Double
+        val scale = 4.0 / (width * zoom)
+        val pixels = IntArray(width * height)
+
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val c_re = (x - width / 2.0) * scale + centerX
+                val c_im = (y - height / 2.0) * scale + centerY
+                var zx = 0.0
+                var zy = 0.0
                 var iteration = 0
-                val step = 2
-                while (Math.pow(x, step.toDouble()) + Math.pow(
-                        y,
-                        step.toDouble()
-                    ) < 4 && iteration < max
-                ) {
-                    //  double x_new = x*x-y*y+c_re;
-                    val x_new = Math.pow(x, step.toDouble()) - Math.pow(y, step.toDouble()) + c_re
-                    y = 2 * x * y + c_im
-                    x = x_new
+                while (zx * zx + zy * zy < 4 && iteration < max) {
+                    val xtemp = zx * zx - zy * zy + c_re
+                    zy = 2 * zx * zy + c_im
+                    zx = xtemp
                     iteration++
                 }
 
-                if (iteration < max)  p.color = colors[iteration]
-                else p.color = Color.BLACK
-                    canvas.drawPoint(row+0f,col +0f,  p)
-
+                pixels[y * width + x] = if (iteration < max) colors[iteration] else Color.BLACK
             }
         }
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
     }
 }
