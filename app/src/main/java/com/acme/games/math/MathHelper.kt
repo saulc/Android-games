@@ -36,6 +36,23 @@ class MathHelper {
         centerX += (bitmapX - width / 2.0) * scale
         centerY += (bitmapY - height / 2.0) * scale
         zoom *= 2.0
+        
+        img?.post {
+            tex?.text = "Zoom: $zoom"
+        }
+        
+        drawGrid()
+    }
+
+    fun resetZoom() {
+        centerX = 0.0
+        centerY = 0.0
+        zoom = 1.0
+
+        img?.post {
+            tex?.text = "Zoom reset"
+        }
+        
         drawGrid()
     }
 
@@ -44,9 +61,15 @@ class MathHelper {
         val rc = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         
         Thread {
-            doMath(rc)
-            img?.post {
-                img?.setImageBitmap(rc)
+            try {
+                doMath(rc)
+                img?.post {
+                    img?.setImageBitmap(rc)
+                }
+            } catch (e: Exception) {
+                img?.post {
+                    tex?.text = "Error: ${e.message}"
+                }
             }
         }.start()
     }

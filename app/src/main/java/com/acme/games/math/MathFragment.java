@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -77,11 +78,30 @@ public class MathFragment extends Fragment {
         MathHelper mathHelp = new MathHelper(this,iv, tv, 500,500);
         mathHelp.drawGrid();
 
-        iv.setOnTouchListener((view, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                view.performClick();
-                mathHelp.zoom(event.getX() / view.getWidth(), event.getY() / view.getHeight());
+        GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
             }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                mathHelp.resetZoom();
+                return true;
+            }
+
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (iv.getWidth() > 0 && iv.getHeight() > 0) {
+                    iv.performClick();
+                    mathHelp.zoom(e.getX() / iv.getWidth(), e.getY() / iv.getHeight());
+                }
+                return true;
+            }
+        });
+
+        iv.setOnTouchListener((view, event) -> {
+            gestureDetector.onTouchEvent(event);
             return true;
         });
 

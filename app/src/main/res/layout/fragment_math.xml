@@ -17,6 +17,8 @@
         android:id="@+id/mImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
 </FrameLayout>

@@ -17,7 +17,7 @@ class GameStats {
         var gg = Gtype(r, l, t.toString(), s)
 //        for( a in games)
 //            g.add(a)
-        games.add(gg)
+        games.add(0, gg)
         if(r == GameResult.HIT) gamesWon++
         else if(r == GameResult.MISS) gamesLost++
 
