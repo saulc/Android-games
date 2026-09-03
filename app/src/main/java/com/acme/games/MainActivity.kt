@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.acme.games.databinding.ActivityMainBinding
 import com.acme.games.other.FragListener
 import com.acme.games.space.HeliFrag
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), FragListener {
@@ -37,6 +39,10 @@ class MainActivity : AppCompatActivity(), FragListener {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        MobileAds.initialize(this) {}
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     override fun onClick(info: String) {
