@@ -49,14 +49,14 @@
             android:id="@+id/bBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="11"
+            android:max="7"
             android:min="1" />
 
         <SeekBar
             android:id="@+id/bBar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="9"
+            android:max="2"
             android:min="0" />
     </LinearLayout>
 
