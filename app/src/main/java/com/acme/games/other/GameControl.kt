@@ -170,8 +170,8 @@ class GameControl{
         if(dat.vtime() == 10000)  listener.stopUpdate() //no need to listen on these levels....
         else if( (t >= dat.vtime()) and (!dat.firstClick ) ) {
             log("View time over. hiding grid.")
-            dat.hide()
-            drawGrid()
+            listener.hide()
+//            drawGrid()
             listener.stopUpdate()
         }
 

@@ -107,6 +107,8 @@ class BlankFragment : Fragment(), GameListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 btext?.text = "Grid : $i"
+                if(i == 0) bar?.max = 7
+                else bar?.max = 11
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -188,6 +190,12 @@ class BlankFragment : Fragment(), GameListener {
             t += g.toString() + "\n"
         text?.text = t
         log( t)
+    }
+
+    override fun hide() {
+        log("Hiding grid items.")
+        val memFrag = childFragmentManager.fragments.filterIsInstance<com.acme.games.other.memFragment>().firstOrNull()
+        memFrag?.hide()
     }
     fun gsignIn(){
 //        val signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN

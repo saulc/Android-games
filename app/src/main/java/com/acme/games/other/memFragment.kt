@@ -37,6 +37,7 @@ class memFragment : Fragment() {
 
         dat.timer.etime = dat.getTime()
         dat.show()
+        memAdapter?.notifyDataSetChanged()
         mstat?.logGame(GameResult.HIT, dat.mode, dat.timer, dat.current)
         listener?.win(mstat.toString())
         listener?.updateboard(mstat!!.games)
@@ -45,6 +46,8 @@ class memFragment : Fragment() {
     fun gameOver(){
 
         mstat?.logGame(GameResult.MISS, dat.mode, dat.timer, dat.current)
+        dat.show()
+        memAdapter?.notifyDataSetChanged()
         listener?.gameOver(mstat.toString())
 
         listener?.updateboard(mstat!!.games)
@@ -70,6 +73,12 @@ class memFragment : Fragment() {
         dat.setmode(mode, grid)
         val recyclerView = view as? RecyclerView
         (recyclerView?.layoutManager as? GridLayoutManager)?.spanCount = columnCount
+    }
+
+
+    fun hide(){
+        dat.hide()
+        memAdapter?.notifyDataSetChanged()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +145,6 @@ class memFragment : Fragment() {
                 }
             }
     }
-
 
     inner class gdata{
         //contain info for current game. soft reset ready.

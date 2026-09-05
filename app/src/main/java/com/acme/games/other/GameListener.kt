@@ -6,4 +6,5 @@ interface GameListener {
     fun win(msg: String)
     fun gameOver(msg: String)
     fun updateboard(games: ArrayList<Gtype>)
+    fun hide()
 }

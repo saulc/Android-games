@@ -88,4 +88,8 @@ class HomeFragment : Fragment(), GameListener {
         log(t)
     }
 
+    override fun hide() {
+        game?.hide()
+    }
+
 }
